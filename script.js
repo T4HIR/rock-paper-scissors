@@ -15,17 +15,37 @@ function getComputerChoice() {
   return computer;
 }
 
+let playersScore = 0;
+let computersScore = 0;
+
 function playRound(playerSelection, computerSelection) {
-  playerSelection = lowerCase(prompt('Rock, paper, or scissors?'));
   computerSelection = getComputerChoice();
 
   if (playerSelection === computerSelection) {
+    document.querySelector('.results').innerHTML = 'Tie';
+    document.querySelector('.game-over').innerHTML = '';
     return "It's a tie!";
   }
   else if (playerSelection === 'rock' && computerSelection === 'scissors' || playerSelection === 'paper' && computerSelection === 'rock' || playerSelection === 'scissors' && computerSelection === 'paper') {
+    document.querySelector('.results').innerHTML = 'Win';
+    playersScore++;
+    document.querySelector('.player-score').innerHTML = playersScore;
+
+    document.querySelector('.game-over').innerHTML = '';
+
+    isGameOver();
+
     return `You win! ${playerSelection} beats ${computerSelection}`;
   }
   else {
+    document.querySelector('.results').innerHTML = 'Loss';
+    computersScore++;
+    document.querySelector('.computer-score').innerHTML = computersScore;
+
+    document.querySelector('.game-over').innerHTML = '';
+
+    isGameOver();
+
     return `You lose! ${computerSelection} beats ${playerSelection}`;
   }
 }
@@ -66,3 +86,18 @@ function game(result) {
     return 'TIE';
   }
 }
+
+document.querySelector('.rock').addEventListener('click', () => { playRound('rock') });
+document.querySelector('.paper').addEventListener('click', () => { playRound('paper') });
+document.querySelector('.scissors').addEventListener('click', () => { playRound('scissors') });
+
+function isGameOver() {
+  if (playersScore === 5 || computersScore === 5) {
+    document.querySelector('.game-over').innerHTML = 'GAME OVER';
+    playersScore = 0;
+    computersScore = 0;
+    document.querySelector('.player-score').innerHTML = '0';
+    document.querySelector('.computer-score').innerHTML = '0';
+  }
+}
+
